@@ -26,9 +26,6 @@ steps:
     grep -v distributionUrl gradle/wrapper/gradle-wrapper.properties > /tmp/gradle-wrapper.properties
     echo distributionUrl=https\\://services.gradle.org/distributions/gradle-$version-all.zip >> /tmp/gradle-wrapper.properties
     cp /tmp/gradle-wrapper.properties gradle/wrapper/gradle-wrapper.properties
-  env:
-    gradleVersion: ${{ parameters.gradleVersion }}
-    projectPath: ${{ parameters.projectPath }}
   displayName: 'Set Gradle version'
 
 - task: Gradle@3

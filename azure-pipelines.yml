@@ -18,6 +18,7 @@ steps:
     jdkSourceOption: 'PreInstalled'
 - bash: |
     cd $projectPath
+    ls
     if [ -z "$gradleVersion" ]; then
       version=$(gradle --version | grep Gradle | awk '{print $2}')
     else
@@ -27,6 +28,7 @@ steps:
     echo distributionUrl=https\\://services.gradle.org/distributions/gradle-$version-all.zip >> /tmp/gradle-wrapper.properties
     cp /tmp/gradle-wrapper.properties gradle/wrapper/gradle-wrapper.properties
   displayName: 'Set Gradle version'
+
 
 - task: Gradle@3
   inputs:

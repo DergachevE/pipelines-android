@@ -8,7 +8,6 @@ pool:
 
 variables:
   gradleVersion: '7.3.3'
-  projectPath: $(PROJECT_PATH)
 
 steps:
 - task: JavaToolInstaller@0
@@ -17,7 +16,6 @@ steps:
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 - bash: |
-    cd $projectPath
     ls
     if [ -z "$gradleVersion" ]; then
       version=$(gradle --version | grep Gradle | awk '{print $2}')

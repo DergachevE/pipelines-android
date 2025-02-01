@@ -6,12 +6,30 @@
 pool:
   vmImage: 'macOS-latest'
 
+variables:
+  gradleVersion: '7.3.3'
+  projectPath: $(PROJECT_PATH)
+
 steps:
 - task: JavaToolInstaller@0
   inputs:
     versionSpec: '17'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
+- bash: |
+    cd $projectPath
+    if [ -z "$gradleVersion" ]; then
+      version=$(gradle --version | grep Gradle | awk '{print $2}')
+    else
+      version=$gradleVersion
+    fi
+    grep -v distributionUrl gradle/wrapper/gradle-wrapper.properties > /tmp/gradle-wrapper.properties
+    echo distributionUrl=https\\://services.gradle.org/distributions/gradle-$version-all.zip >> /tmp/gradle-wrapper.properties
+    cp /tmp/gradle-wrapper.properties gradle/wrapper/gradle-wrapper.properties
+  env:
+    gradleVersion: ${{ parameters.gradleVersion }}
+    projectPath: ${{ parameters.projectPath }}
+  displayName: 'Set Gradle version'
 
 - task: Gradle@3
   inputs:
